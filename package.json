@@ -1,0 +1,24 @@
+{
+  "name": "swingnotesapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lambdaCreateNote.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.656.0",
+    "@aws-sdk/lib-dynamodb": "^3.656.0",
+    "@middy/core": "^5.5.0",
+    "@middy/http-error-handler": "^5.5.0",
+    "@middy/http-json-body-parser": "^5.5.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^10.0.0"
+  }
+}
