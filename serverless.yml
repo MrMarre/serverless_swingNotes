@@ -46,6 +46,24 @@ functions:
       - httpApi:
           path: /login
           method: POST
+  putNote:
+    handler: functions/putNote/index.handler
+    events:
+      - httpApi:
+          path: /notes
+          method: PUT
+  getNote:
+    handler: functions/getNote/index.handler
+    events:
+      - httpApi:
+          path: /notes
+          method: GET
+  deleteNote:
+    handler: functions/deleteNote/index.handler
+    events:
+      - httpApi:
+          path: /notes
+          method: delete
 
 resources:
   Resources:

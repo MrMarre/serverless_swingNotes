@@ -2,14 +2,21 @@ import { v4 as uuidv4 } from 'uuid';
 import { sendError, sendResponse } from '../../utils/responseHelper.js';
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { db } from '../../database.js';
+import middy from '@middy/core';
+import { tokenValidator } from '../../middleware/auth.js';
 
 const createNote = async (event, context) => {
   const data = JSON.parse(event.body);
+  console.log('event i createNote', event);
+
+  const userId = event.userId;
+  console.log('UserId i createNote:', userId); // Lägg till denna rad för att se userId i createNote
 
   const note = {
     id: uuidv4(),
     title: data.title,
     text: data.text,
+    userId: userId,
     createdAt: new Date().toISOString(),
     modifiedAt: new Date().toISOString(),
   };
@@ -18,6 +25,7 @@ const createNote = async (event, context) => {
     TableName: 'notes',
     Item: note,
   };
+
   try {
     const command = new PutCommand(params);
 
@@ -30,4 +38,9 @@ const createNote = async (event, context) => {
   }
 };
 
-export const handler = createNote;
+export const handler = middy(createNote, {
+  timeoutEarlyInMillis: 0,
+  timeoutEarlyResponse: () => {
+    return { statusCode: 408 };
+  },
+}).use(tokenValidator);

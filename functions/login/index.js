@@ -20,7 +20,7 @@ async function passwordCheck(password, user) {
 function signToken(user) {
   try {
     const token = JWT.sign(
-      { username: user.username },
+      { userId: user.userId, username: user.username },
       process.env.JWT_SECRET,
       {
         expiresIn: 3600,
@@ -32,25 +32,6 @@ function signToken(user) {
     throw error;
   }
 }
-
-// const getUser = async (userId) => {
-//   try {
-//     const params = {
-//       TableName: 'users',
-//       Key: { userId: userId },
-//     };
-
-//     const command = new GetCommand(params); // Skapa en GetCommand
-//     const { Item } = await db.send(command); // Använd db.send(command) istället för db.get
-
-//     console.log('Fetched user:', Item);
-
-//     return Item;
-//   } catch (error) {
-//     console.error('Error fetching user from DynamoDB:', error);
-//     throw error;
-//   }
-// };
 
 async function getUserByUsername(username) {
   try {
