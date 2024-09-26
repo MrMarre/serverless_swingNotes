@@ -56,7 +56,7 @@ functions:
     handler: functions/getNote/index.handler
     events:
       - httpApi:
-          path: /notes
+          path: /notes/{id}
           method: GET
   deleteNote:
     handler: functions/deleteNote/index.handler
@@ -64,7 +64,12 @@ functions:
       - httpApi:
           path: /notes
           method: delete
-
+  queryNotesByUser:
+    handler: functions/queryNotesByUser/index.handler
+    events:
+      - httpApi:
+          path: /user/notes/{userId}
+          method: GET
 resources:
   Resources:
     NotesTable:
@@ -73,9 +78,18 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: UserIdIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.notesTable}
     UsersTable:
