@@ -1,7 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-import middy from '@middy/core';
-import jsonBodyParser from '@middy/http-json-body-parser';
-import httpErrorHandler from '@middy/http-error-handler';
 import { sendError, sendResponse } from '../../utils/responseHelper.js';
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { db } from '../../database.js';
