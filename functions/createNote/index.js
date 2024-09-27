@@ -10,7 +10,7 @@ const createNote = async (event, context) => {
   console.log('event i createNote', event);
 
   const userId = event.userId;
-  console.log('UserId i createNote:', userId); // Lägg till denna rad för att se userId i createNote
+  console.log('UserId i createNote:', userId);
 
   const note = {
     id: uuidv4(),

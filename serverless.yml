@@ -26,6 +26,7 @@ provider:
         - arn:aws:dynamodb:${self:provider.region}:*:table/notes
         - arn:aws:dynamodb:${self:provider.region}:*:table/users
         - arn:aws:dynamodb:${self:provider.region}:*:table/users/index/*
+        - arn:aws:dynamodb:${self:provider.region}:*:table/notes/index/*
 
 functions:
   createNote:
@@ -50,7 +51,7 @@ functions:
     handler: functions/putNote/index.handler
     events:
       - httpApi:
-          path: /notes
+          path: /notes/{id}
           method: PUT
   getNote:
     handler: functions/getNote/index.handler
