@@ -23,7 +23,7 @@ function signToken(user) {
       { userId: user.userId, username: user.username },
       process.env.JWT_SECRET,
       {
-        expiresIn: 3600,
+        expiresIn: 36000,
       }
     );
     return token;

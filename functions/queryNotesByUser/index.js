@@ -1,4 +1,4 @@
-import { QueryCommand } from '@aws-sdk/client-dynamodb';
+import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { sendError, sendResponse } from '../../utils/responseHelper.js';
 import { db } from '../../database.js';
 import middy from '@middy/core';
@@ -8,8 +8,7 @@ import { tokenValidator } from '../../middleware/auth.js';
 // anteckningar från given user.
 
 const queryNotesByUser = async (event) => {
-  const userId = event.userId;
-  // console.log('Event', event);
+  const { userId } = event;
 
   const params = {
     TableName: 'notes',
@@ -24,7 +23,7 @@ const queryNotesByUser = async (event) => {
     const command = new QueryCommand(params);
     console.log('command', command);
     const result = await db.send(command);
-    console.log('Result from db send command:', result);
+    console.log('Result from db send command:', result.Items);
 
     if (!result || !result.Items) {
       console.log('No notes found for this user');
@@ -38,7 +37,6 @@ const queryNotesByUser = async (event) => {
     );
   } catch (error) {
     console.log('Error querying notes:', error);
-
     return sendError(500, error.message);
   }
 };
