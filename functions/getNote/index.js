@@ -7,6 +7,10 @@ import { tokenValidator } from '../../middleware/auth.js';
 const getNote = async (event) => {
   const { id } = event.pathParameters;
 
+  // En liten range-key(sort-key) och vanlig hashkey för att säkerställa att enbart rätt användare
+  // kan hämta ut anteckningar kopplade till användaren.
+  // Den kopplingen/sammansättningen kan alltså mangla ihop ett samband
+
   const params = {
     TableName: 'notes',
     Key: {

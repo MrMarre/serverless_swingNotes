@@ -17,7 +17,7 @@ export const tokenValidator = {
       return request.response;
     } catch (error) {
       console.log(error.message);
-      return sendError(500, error.message);
+      return sendError(401, error.message);
     }
   },
 };

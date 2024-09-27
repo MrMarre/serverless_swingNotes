@@ -68,7 +68,7 @@ functions:
     handler: functions/queryNotesByUser/index.handler
     events:
       - httpApi:
-          path: /user/notes/{userId}
+          path: /user/notes
           method: GET
 resources:
   Resources:

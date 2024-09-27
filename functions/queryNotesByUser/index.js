@@ -4,8 +4,12 @@ import { db } from '../../database.js';
 import middy from '@middy/core';
 import { tokenValidator } from '../../middleware/auth.js';
 
+// Samma gäller här med range/sortKey och hash/partition, för att enbart kunna hämta
+// anteckningar från given user.
+
 const queryNotesByUser = async (event) => {
-  const { userId } = event.pathParameters;
+  const userId = event.userId;
+  // console.log('Event', event);
 
   const params = {
     TableName: 'notes',
@@ -18,10 +22,12 @@ const queryNotesByUser = async (event) => {
 
   try {
     const command = new QueryCommand(params);
+    console.log('command', command);
     const result = await db.send(command);
-    console.log('REsult from db send command', result);
+    console.log('Result from db send command:', result);
 
     if (!result || !result.Items) {
+      console.log('No notes found for this user');
       return sendError(404, 'No notes found for this user');
     }
 
@@ -31,6 +37,8 @@ const queryNotesByUser = async (event) => {
       result.Items
     );
   } catch (error) {
+    console.log('Error querying notes:', error);
+
     return sendError(500, error.message);
   }
 };
